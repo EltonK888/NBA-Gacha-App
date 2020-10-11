@@ -1,4 +1,4 @@
-# NBA Gacha
+# NBA Gacha :basketball:
 
 ## A gacha game with NBA players built in Java for the CPSC 210 project
 
