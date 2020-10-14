@@ -175,17 +175,21 @@ public class NbaGachaApp {
     public void switchPlayersClaimedToTeam(Scanner scanner) {
         System.out.println("What player would you like to add to the roster?");
         String userInput = scanner.next();
-        System.out.println(userInput);
         if (claimed.hasPlayer(userInput)) {
             if (team.isFull()) {
                 String playerName1 = userInput;
                 System.out.println("Your team is full, who would you like to swap the player with?");
                 String playerName2 = scanner.next();
-                claimed.switchToActiveTeam(team, playerName1, playerName2);
+                if (team.hasPlayer(playerName2)) {
+                    claimed.switchToActiveTeam(team, playerName1, playerName2);
+                    System.out.println(userInput + " was swapped onto the active team");
+                } else {
+                    System.out.println("Sorry, " + playerName2 + " is not on your team");
+                }
             } else {
                 claimed.switchToActiveTeam(team, userInput);
+                System.out.println(userInput + " was swapped onto the active team");
             }
-            System.out.println(userInput + " was swapped onto the active team");
         } else {
             System.out.println("Sorry, you have not claimed this player yet.");
         }
