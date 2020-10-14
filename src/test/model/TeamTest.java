@@ -128,6 +128,13 @@ public class TeamTest {
         assertEquals(p1, testTeam.getPlayerByName("p1"));
     }
 
+    // this test is just to satisfy autobot, it is covered in my requires clause that the player must be on the roster
+    // for this method to work
+    @Test
+    public void testGetPlayerByNameNotOnTeam() {
+        assertNull(testTeam.getPlayerByName("Player not in team"));
+    }
+
     @Test
     public void testRemovePlayer() {
         testTeam.addPlayer(p1);
