@@ -4,17 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 // A class
-public class Team {
-    public static final int TEAM_SIZE = 15; // maximum number of players than can be on one team
+public class Team extends PlayerRoster {
+    public static final int MAX_TEAM_SIZE = 15; // maximum number of players than can be on one team
 
-    List<Player> team;
 
     public Team() {
-        team = new ArrayList<>(TEAM_SIZE);
+        super();
     }
 
-    // EFFECTS: Returns the active team roster
-    public List<Player> getTeam() {
-        return team;
+
+    // MODIFIES: this
+    // EFFECTS: Adds the player to the team
+    public void addPlayer(Player p) {
+        if (!this.isFull()) {
+            playerList.add(p);
+        }
+    }
+
+    public boolean isFull() {
+        return playerList.size() == MAX_TEAM_SIZE;
     }
 }

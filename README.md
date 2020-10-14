@@ -20,11 +20,12 @@ and this idea was born.
 
 
 ### User Stories
-- As a user, I want to be able to roll for different NBA players
-- As a user, I want to be able to see my chances at rolling different tiers of players
-- As a user, I want to be able to choose to either claim the player that I roll, or skip him.
-- As a user, I want to be able to claim duplicate rolls of a player to enhance their skills
-- As a user, I want to be able to choose which players I can add to my team based on their position
+- As a user, I want to be able to roll for different NBA players <- grade this one
+- As a user, I want to be able to see my chances at rolling different tiers of players <- grade this one
+- As a user, I want to be able to choose to either claim the player that I roll, or skip him. <- grade this one
+- As a user, I want to be able to see all the players I have claimed <- grade this one
+- As a user, I want to be able to claim duplicate rolls of a player to enhance their skills. TODO
+- As a user, I want to be able to choose which players I can add to my team based on their position. TODO
     - Players can be one of 5 different positions 
         1. Point Guard (PG) - the ball handlers
         2. Shooting Guard (SG) - the shooters
@@ -32,8 +33,7 @@ and this idea was born.
         4. Power Forward (PF) - Good rebounders and scoring
         5. Center (C) - Great rebounders, shot blockers
 - As a user, I want to be able to face off against other teams in a game and see which team wins/has the highest scores
-- As a user, I want to be able to see the stats my players put up after the game
-- As a user, I want to be able to see the all players on my current team
-- As a user, I want to be able to see all the players I have claimed
-- As a user, I want to be able to swap players I have claimed with players on the active team that are of the same
-position
+todo
+- As a user, I want to be able to see the stats my players put up after the game. TODO
+- As a user, I want to be able to see the all players on my current team. :checkmark:
+- As a user, I want to be able to swap players I have claimed with players on the active team :checkmark:
