@@ -20,7 +20,7 @@ import java.util.Scanner;
 // 204 3 star players
 
 
-// A class for the Gacha Application
+// A class for the NBAGacha Application
 public class NbaGachaApp {
     private Random rand;
     private BufferedReader csvReader;
@@ -28,31 +28,32 @@ public class NbaGachaApp {
     public ClaimedPlayers claimed;
     public Team team;
 
-    private static final String PATH_TO_CSV = "data/sportsref_download.csv";
-    public static final int ID_INDEX = 0;
-    public static final int NAME_INDEX = 1;
-    public static final int POSITION_INDEX = 2;
-    public static final int TEAM_INDEX = 4;
-    public static final int MINUTES_PLAYED_INDEX = 5;
-    public static final int REBOUNDS_INDEX = 9;
-    public static final int ASSIST_INDEX = 10;
-    public static final int BLOCKS_INDEX = 12;
-    public static final int POINTS_INDEX = 13;
-    public static final int STAR_INDEX = 14;
-    public static final int FIVE_STAR_ROLL_TABLE = 18;
-    public static final int FOUR_STAR_ROLL_TABLE = 55;
-    public static final int THREE_STAR_ROLL_TABLE = 259;
-    public static final double FIVE_STAR_ROLL_CHANCE = 0.05;
-    public static final double FOUR_STAR_ROLL_CHANCE = 0.10;
-    public static final double THREE_STAR_ROLL_CHANCE = 0.85;
+    private static final String PATH_TO_CSV = "data/sportsref_download.csv"; // path to the csv
+    public static final int ID_INDEX = 0; // list index for the player ID
+    public static final int NAME_INDEX = 1; // list index for the player name
+    public static final int POSITION_INDEX = 2; // list index for the player position
+    public static final int TEAM_INDEX = 4; // list index for the player's team
+    public static final int MINUTES_PLAYED_INDEX = 5; // list index for how many minutes the player plays
+    public static final int REBOUNDS_INDEX = 9; // list index for how many rebounds the player gets per game
+    public static final int ASSIST_INDEX = 10; // list index for how many assists the player gets per game
+    public static final int BLOCKS_INDEX = 12; // list index for how many blocks the player gets per game
+    public static final int POINTS_INDEX = 13; // list index for how many points the player gets per game
+    public static final int STAR_INDEX = 14; // the rank of a player (5 highest, 3 lowest)
+    public static final int FIVE_STAR_ROLL_TABLE = 18; // determines the upper bound to roll on for the 5 star players
+    public static final int FOUR_STAR_ROLL_TABLE = 55; // determines the upper bound to roll on for the 4 star players
+    public static final int THREE_STAR_ROLL_TABLE = 259; // determines the upper bound to roll on for the 3 star players
+    public static final double FIVE_STAR_ROLL_CHANCE = 0.05; // roll chance for a 5 star player
+    public static final double FOUR_STAR_ROLL_CHANCE = 0.10; // roll chance for a 4 star player
+    public static final double THREE_STAR_ROLL_CHANCE = 0.85; // roll chance for a 3 star player
 
+    // constructs the app by creating the list of claimed players and teams. Also initialized the random int roller
     public NbaGachaApp() {
         rand = new Random();
         team = new Team();
         claimed = new ClaimedPlayers();
     }
 
-    // MODIFIES: this, currentPlayer, claimed, team, csvReader
+    // MODIFIES: this
     // EFFECTS: Runs the main loop of the gacha game
     public void runApp() throws IOException {
         System.out.println("Welcome to the NBA Gacha Game! Enter any key to Roll, 'C' for chances,"
@@ -74,7 +75,8 @@ public class NbaGachaApp {
         }
     }
 
-    // MODIFIES: this, currentPlayer
+    // REQUIRES: roll must correspond with a player ID in the database
+    // MODIFIES: this
     // EFFECTS: Creates an NBA Player with the same ID as the role
     public Player generatePlayer(int roll) throws IOException {
         Player p;
@@ -108,14 +110,14 @@ public class NbaGachaApp {
         }
     }
 
-    // MODIFIES: this, claimed
+    // MODIFIES: this
     // EFFECTS: Adds the player to the claimed player list
     public String claimPlayer(Player p) {
         claimed.addPlayer(p);
         return p.getName() + " has been claimed!";
     }
 
-    // MODIFIES: scanner, rand, currentPlayer
+    // MODIFIES: this
     // EFFECTS: Rolls a player based off the roll chances and asks if the user would like to claim the player
     public void rollPlayer(Scanner scanner) throws IOException {
         double rollTable = rand.nextDouble(); // determines what star table to roll on
@@ -143,7 +145,7 @@ public class NbaGachaApp {
         }
     }
 
-    // MODIFIES: scanner
+    // MODIFIES: this
     // EFFECTS: Runs the menu where the user can see their claimed players and team
     public void claimedMenu(Scanner scanner) {
         String userInput;
@@ -165,25 +167,33 @@ public class NbaGachaApp {
         }
     }
 
-    // MODIFIES: scanner
+    // MODIFIES: this
     // EFFECTS: Runs the menu where the user can choose to modify players on their team
     public void modifyTeam(Scanner scanner) {
-        boolean run = true;
-        while (run) {
-            System.out.println("Press 'A' to add a player from your claimed players to the team or 'R' to remove a"
-                    + " player from the team or any other key to return to the main menu");
-            String userInput = scanner.next();
-            if (userInput.equals("A") || userInput.equals("a")) {
-                swapPlayerOntoTeam(scanner);
-            } else if (userInput.equals("R") || userInput.equals("r")) {
-                removePlayerFromTeam(scanner);
-            } else {
-                run = false;
+        if (team.isEmpty() && claimed.isEmpty()) {
+            System.out.println("You have no players on your team and claim list!");
+        } else {
+            boolean run = true;
+            while (run) {
+                System.out.println("Press 'A' to add a player from your claimed players to the team or 'R' to remove a"
+                        + " player from the team or any other key to return to the main menu");
+                String userInput = scanner.next();
+                if (userInput.equals("A") || userInput.equals("a")) {
+                    if (claimed.isEmpty()) {
+                        System.out.println("You have no claimed players than you can add to your team!");
+                    } else {
+                        swapPlayerOntoTeam(scanner);
+                    }
+                } else if (userInput.equals("R") || userInput.equals("r")) {
+                    removePlayerFromTeam(scanner);
+                } else {
+                    run = false;
+                }
             }
         }
     }
 
-    // MODIFIES: scanner, claimed, team
+    // MODIFIES: this
     // EFFECTS: Runs the menu where the user can choose to swap a player from the claimed roster to the active team
     public void swapPlayerOntoTeam(Scanner scanner) {
         System.out.println("What Player would you like to swap to the roster?");
@@ -210,7 +220,7 @@ public class NbaGachaApp {
 
     }
 
-    // MODIFIES: claimed, scanner, team
+    // MODIFIES: this
     // EFFECTS: Runs the menu where the user can remove a player from the team to place back onto their claimed roster
     public void removePlayerFromTeam(Scanner scanner) {
         if (team.isEmpty()) {

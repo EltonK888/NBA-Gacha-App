@@ -148,7 +148,7 @@ public class ClaimedPlayersTest {
     public void testPrintPlayersSomePlayers() {
         claimedPlayers.addPlayer(p1);
         claimedPlayers.addPlayer(p3);
-        assertEquals("Name: p1 Stars: 5 Team: TOR\nName: p3 Stars: 3 Team: LAL\n",
+        assertEquals("Name: p1 Stars: 5 Position: SG Team: TOR\nName: p3 Stars: 3 Position: PF Team: LAL\n",
                 claimedPlayers.printPlayers());
     }
 

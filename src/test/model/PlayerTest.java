@@ -81,9 +81,9 @@ class PlayerTest {
 
     @Test
     public void testToString() {
-        assertEquals("p1 SG TOR", p1.toString());
-        assertEquals("p2 PG MIL", p2.toString());
-        assertEquals("p3 PF LAL", p3.toString());
+        assertEquals("Name: p1 Stars: 5 Position: SG Team: TOR", p1.toString());
+        assertEquals("Name: p2 Stars: 4 Position: PG Team: MIL", p2.toString());
+        assertEquals("Name: p3 Stars: 3 Position: PF Team: LAL", p3.toString());
     }
 
     @Test

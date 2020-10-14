@@ -13,7 +13,7 @@ public class Player {
     public int playerID;
     public HashMap<String, Double> playerStats;
 
-    /* REQUIRES: playerData must have size of 15 containing the data of the given player the following indices must
+    /* REQUIRES: playerData must have size of 15 containing the data of the given player. The following indices must
     *           contain the values: 0 = rank, 1 = name, 2 = position, 3 = age, 4 = team, 5 = minutes, 6 = field goals
     *           7 = field goal attempts, 8 = field goal percentage 9 = rebounds, 10 = assists, 11 = steals,
     *           12 = blocks, 13 = points, 14 Stars.
@@ -88,8 +88,8 @@ public class Player {
         return stars;
     }
 
-    @Override
+    // EFFECTS: Returns a string representation of the player
     public String toString() {
-        return name + " " + position + " " + team;
+        return "Name: " + name + " Stars: " + stars + " Position: " + position + " Team: " + team;
     }
 }

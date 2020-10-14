@@ -7,6 +7,7 @@ import java.util.List;
 public abstract class PlayerRoster {
     List<Player> playerList;
 
+    // EFFECTS: Constructs a player list to hold a collection of players
     public PlayerRoster() {
         playerList = new ArrayList<>();
     }
@@ -19,7 +20,7 @@ public abstract class PlayerRoster {
             s = "There are no players!\n";
         } else {
             for (Player p : playerList) {
-                s += "Name: " + p.getName() + " Stars: " + p.getStars() + " Team: " + p.getTeam() + "\n";
+                s += p.toString() + "\n";
             }
         }
         return s;
@@ -28,11 +29,6 @@ public abstract class PlayerRoster {
     // EFFECTS: Returns the list of players
     public List<Player> getPlayerList() {
         return playerList;
-    }
-
-    // EFFECTS: Returns the number of players a user has claimed
-    public int size() {
-        return playerList.size();
     }
 
     // REQUIRES: The player must be in the player roster
@@ -56,7 +52,7 @@ public abstract class PlayerRoster {
         return false;
     }
 
-    // REQUIRES: the with the parameter name must be in the player list
+    // REQUIRES: The player with the name must be in the player list
     // MODIFIES: this
     // EFFECTS: Removes and returns the player with the given name from the player list
     public Player removePlayer(String name) {
@@ -65,10 +61,16 @@ public abstract class PlayerRoster {
         return p;
     }
 
+    // EFFECTS: Returns the number of players a user has claimed
+    public int size() {
+        return playerList.size();
+    }
+
     // EFFECTS: Returns a boolean which is true if the roster is empty
     public boolean isEmpty() {
         return playerList.isEmpty();
     }
 
+    // EFFECTS: Adds a player to the roster
     public abstract void addPlayer(Player p);
 }
