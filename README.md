@@ -21,15 +21,16 @@ and this idea was born.
 
 ### User Stories
 - As a user, I want to be able to roll for different NBA players. :heavy_check_mark: Done **<- grade this one**
-- As a user, I want to be able to see my chances at rolling different tiers of players. :heavy_check_mark: Done
- **<- grade this one**
 - As a user, I want to be able to choose to either claim the player that I roll, or skip him. :heavy_check_mark: Done
  **<- grade this one**
+- As a user, I want the players that I claim in the gacha to be added to my claimed players collection.
+ :heavy_check_mark: Done **grade this one**
 - As a user, I want to be able to see all the players I have claimed. :heavy_check_mark: Done **<- grade this one**
 - As a user, I want to be able to see the all players on my current team. :heavy_check_mark: Done optionally grade this
 if a user story is to fail
 - As a user, I want to be able to swap players I have claimed with players on the active team :heavy_check_mark: Done
 optionally grade this if a user story is to fail
+- As a user, I want to be able to see my chances at rolling different tiers of players. :heavy_check_mark: Done
 - As a user, I want to be able to claim duplicate rolls of a player to enhance their skills. TODO
 - As a user, I want to be able to choose which players I can add to my team based on their position. TODO
     - Players can be one of 5 different positions 
