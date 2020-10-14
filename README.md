@@ -24,7 +24,7 @@ and this idea was born.
 - As a user, I want to be able to choose to either claim the player that I roll, or skip him. :heavy_check_mark: Done
  **<- grade this one**
 - As a user, I want the players that I claim in the gacha to be added to my claimed players collection.
- :heavy_check_mark: Done **grade this one**
+ :heavy_check_mark: Done **<- grade this one**
 - As a user, I want to be able to see all the players I have claimed. :heavy_check_mark: Done **<- grade this one**
 - As a user, I want to be able to see the all players on my current team. :heavy_check_mark: Done optionally grade this
 if a user story is to fail

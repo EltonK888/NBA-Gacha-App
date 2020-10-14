@@ -55,6 +55,7 @@ public class NbaGachaApp {
 
     // MODIFIES: this
     // EFFECTS: Runs the main loop of the gacha game
+    //          Throws IOException if there was an error reading the database
     public void runApp() throws IOException {
         System.out.println("Welcome to the NBA Gacha Game! Enter any key to Roll, 'C' for chances,"
                 + " 'T' to see your players, or 'Q' to quit");
@@ -78,6 +79,7 @@ public class NbaGachaApp {
     // REQUIRES: roll must correspond with a player ID in the database
     // MODIFIES: this
     // EFFECTS: Creates an NBA Player with the same ID as the role
+    //          Throws an IOException if there was an error reading the player database
     public Player generatePlayer(int roll) throws IOException {
         Player p;
         int playerID;
@@ -119,6 +121,7 @@ public class NbaGachaApp {
 
     // MODIFIES: this
     // EFFECTS: Rolls a player based off the roll chances and asks if the user would like to claim the player
+    //          Throws IOException if there was an error reading the player database
     public void rollPlayer(Scanner scanner) throws IOException {
         double rollTable = rand.nextDouble(); // determines what star table to roll on
         int roll; // the integer that will be rolled
