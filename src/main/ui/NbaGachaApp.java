@@ -111,13 +111,8 @@ public class NbaGachaApp {
     // MODIFIES: this, claimed
     // EFFECTS: Adds the player to the claimed player list
     public String claimPlayer(Player p) {
-        boolean success;
-        success = claimed.claimPlayer(p);
-        if (success) {
-            return p.getName() + " has been claimed!";
-        } else {
-            return "There was an error claiming " + p.getName();
-        }
+        claimed.addPlayer(p);
+        return p.getName() + " has been claimed!";
     }
 
     // MODIFIES: scanner, rand, currentPlayer
@@ -154,16 +149,34 @@ public class NbaGachaApp {
         String userInput;
         boolean run = true;
         while (run) {
-            System.out.print("Press 'C' to see claimed players or 'T' to see the players on your active team, 'S' "
-                    + "to switch players from your claimed roster to your active team,");
+            System.out.print("Press 'C' to see claimed players or 'T' to see the players on your active team, 'M' "
+                    + "to modify your active team,");
             System.out.println(" and any other key to return to the main menu");
             userInput = scanner.next();
             if (userInput.equals("C") || userInput.equals("c")) {
                 System.out.print(claimed.printPlayers());
             } else if (userInput.equals("T") || userInput.equals("t")) {
                 System.out.print(team.printPlayers());
-            } else if (userInput.equals("S") || userInput.equals("s")) {
-                switchPlayersClaimedToTeam(scanner);
+            } else if (userInput.equals("M") || userInput.equals("m")) {
+                modifyTeam(scanner);
+            } else {
+                run = false;
+            }
+        }
+    }
+
+    // MODIFIES: scanner
+    // EFFECTS: Runs the menu where the user can choose to modify players on their team
+    public void modifyTeam(Scanner scanner) {
+        boolean run = true;
+        while (run) {
+            System.out.println("Press 'A' to add a player from your claimed players to the team or 'R' to remove a"
+                    + " player from the team or any other key to return to the main menu");
+            String userInput = scanner.next();
+            if (userInput.equals("A") || userInput.equals("a")) {
+                swapPlayerOntoTeam(scanner);
+            } else if (userInput.equals("R") || userInput.equals("r")) {
+                removePlayerFromTeam(scanner);
             } else {
                 run = false;
             }
@@ -171,9 +184,10 @@ public class NbaGachaApp {
     }
 
     // MODIFIES: scanner, claimed, team
-    // EFFECTS: Runs the menu where the user can swap a player from the claimed players to the team
-    public void switchPlayersClaimedToTeam(Scanner scanner) {
-        System.out.println("What player would you like to add to the roster?");
+    // EFFECTS: Runs the menu where the user can choose to swap a player from the claimed roster to the active team
+    public void swapPlayerOntoTeam(Scanner scanner) {
+        System.out.println("What Player would you like to swap to the roster?");
+        System.out.print(claimed.printPlayers());
         String userInput = scanner.next();
         if (claimed.hasPlayer(userInput)) {
             if (team.isFull()) {
@@ -182,7 +196,7 @@ public class NbaGachaApp {
                 String playerName2 = scanner.next();
                 if (team.hasPlayer(playerName2)) {
                     claimed.switchToActiveTeam(team, playerName1, playerName2);
-                    System.out.println(userInput + " was swapped onto the active team");
+                    System.out.println(playerName2 + " was swapped onto the active team");
                 } else {
                     System.out.println("Sorry, " + playerName2 + " is not on your team");
                 }
@@ -193,8 +207,27 @@ public class NbaGachaApp {
         } else {
             System.out.println("Sorry, you have not claimed this player yet.");
         }
+
     }
 
+    // MODIFIES: claimed, scanner, team
+    // EFFECTS: Runs the menu where the user can remove a player from the team to place back onto their claimed roster
+    public void removePlayerFromTeam(Scanner scanner) {
+        if (team.isEmpty()) {
+            System.out.println("You don't have any players on your team.");
+        } else {
+            System.out.println("What Player would you like to remove from the team?");
+            System.out.print(team.printPlayers());
+            String userInput = scanner.next();
+            if (team.hasPlayer(userInput)) {
+                Player removedPlayer = team.removePlayer(userInput);
+                claimed.addPlayer(removedPlayer);
+                System.out.println(removedPlayer.getName() + " swapped from the team to the claimed roster");
+            } else {
+                System.out.println("This player is not on your team.");
+            }
+        }
+    }
 
     // EFFECTS: Returns a string with the roll chances of the 5 star, 4 star, and 3 star roll tables
     public String printRollChances() {

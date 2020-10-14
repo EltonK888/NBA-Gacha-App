@@ -79,6 +79,34 @@ class PlayerTest {
         assertEquals(stats, p1.getStats());
     }
 
+    @Test
+    public void testToString() {
+        assertEquals("p1 SG TOR", p1.toString());
+        assertEquals("p2 PG MIL", p2.toString());
+        assertEquals("p3 PF LAL", p3.toString());
+    }
+
+    @Test
+    public void testGetStats() {
+        HashMap<String, Double> p2Expected = new HashMap<>();
+        HashMap<String, Double> p3Expected = new HashMap<>();
+
+        p2Expected.put("minutes", 8.7);
+        p2Expected.put("rebounds", 2.9);
+        p2Expected.put("assists", 0.4);
+        p2Expected.put("blocks", 0.7);
+        p2Expected.put("points", 6.8);
+
+        p3Expected.put("minutes", 18.9);
+        p3Expected.put("rebounds", 3.7);
+        p3Expected.put("assists", 0.1);
+        p3Expected.put("blocks", 3.1);
+        p3Expected.put("points", 22.7);
+
+        assertEquals(p2Expected, p2.getStats());
+        assertEquals(p3Expected, p3.getStats());
+    }
+
     public void createTestData() {
         p1Data.addAll(Arrays.asList("12", "p1", "SG", "20", "TOR", "31.2", "10.8", "16.2", "0.522", "11.2", "1.8",
                 "0.2", "0.1", "26.3", "5"));

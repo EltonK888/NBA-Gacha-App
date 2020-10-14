@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+// An abstract class that determines behaviour for the types of player lists
 public abstract class PlayerRoster {
     List<Player> playerList;
 
@@ -68,4 +69,6 @@ public abstract class PlayerRoster {
     public boolean isEmpty() {
         return playerList.isEmpty();
     }
+
+    public abstract void addPlayer(Player p);
 }

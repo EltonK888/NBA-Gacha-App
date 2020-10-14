@@ -13,15 +13,16 @@ public class Player {
     public int playerID;
     public HashMap<String, Double> playerStats;
 
-    // REQUIRES: playerData must have size of 15 containing the data of the given player the following indices must
-    //           contain the values: 0 = rank, 1 = name, 2 = position, 3 = age, 4 = team, 5 = minutes, 6 = field goals
-    //           7 = field goal attempts, 8 = field goal percentage 9 = rebounds, 10 = assists, 11 = steals,
-    //           12 = blocks, 13 = points, 14 Stars.
-    //           Rank, age and stars are integers represented as strings
-    //           Minutes, field goals, field goal attempts, field goal percentage, rebounds, assists, steals, blocks,
-    //           points are doubles represented as strings
-    //           stars must be a integer represented as a string from 3-5 inclusive
-    // EFFECTS: Constructs a new basketball player with their information
+    /* REQUIRES: playerData must have size of 15 containing the data of the given player the following indices must
+    *           contain the values: 0 = rank, 1 = name, 2 = position, 3 = age, 4 = team, 5 = minutes, 6 = field goals
+    *           7 = field goal attempts, 8 = field goal percentage 9 = rebounds, 10 = assists, 11 = steals,
+    *           12 = blocks, 13 = points, 14 Stars.
+    *           Rank, age and stars are integers represented as strings
+    *           Minutes, field goals, field goal attempts, field goal percentage, rebounds, assists, steals, blocks,
+    *           points are doubles represented as strings
+    *           stars must be a integer represented as a string from 3-5 inclusive
+    * EFFECTS: Constructs a new basketball player with their information
+    */
     public Player(List<String> playerData) {
         this.name = playerData.get(NbaGachaApp.NAME_INDEX);
         this.position = playerData.get(NbaGachaApp.POSITION_INDEX);
@@ -31,13 +32,14 @@ public class Player {
         setPlayerStats(playerData);
     }
 
-    // REQUIRES: playerData must have size of 15 containing the data of the given player the following indices must
-    //           contain the values: 0 = rank, 1 = name, 2 = position, 3 = age, 4 = team, 5 = minutes, 6 = field goals
-    //           7 = field goal attempts, 8 = field goal percentage 9 = rebounds, 10 = assists, 11 = steals,
-    //           12 = blocks, 13 = points, 14 Stars.
-    // MODIFIES: this
-    // EFFECTS: Creates a hashmap with the keys being "minutes", "rebounds", "assists", "blocks", "points", mapping
-    //          to the corresponding stat value of the player
+    /* REQUIRES: playerData must have size of 15 containing the data of the given player the following indices must
+    *           contain the values: 0 = rank, 1 = name, 2 = position, 3 = age, 4 = team, 5 = minutes, 6 = field goals
+    *           7 = field goal attempts, 8 = field goal percentage 9 = rebounds, 10 = assists, 11 = steals,
+    *           12 = blocks, 13 = points, 14 Stars.
+    * MODIFIES: this
+    * EFFECTS: Creates a hashmap with the keys being "minutes", "rebounds", "assists", "blocks", "points", mapping
+    *          to the corresponding stat value of the player
+    */
     public void setPlayerStats(List<String> playerData) {
         this.playerStats = new HashMap<>();
 
