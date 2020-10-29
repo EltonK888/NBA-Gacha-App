@@ -23,12 +23,10 @@ import java.util.Scanner;
 // A class for the NBAGacha Application
 public class NbaGachaApp {
     private Random rand;
-    private BufferedReader csvReader;
     public Player currentPlayer;
     public ClaimedPlayers claimed;
     public Team team;
 
-    private static final String PATH_TO_CSV = "data/sportsref_download.csv"; // path to the csv
     public static final int ID_INDEX = 0; // list index for the player ID
     public static final int NAME_INDEX = 1; // list index for the player name
     public static final int POSITION_INDEX = 2; // list index for the player position
@@ -56,7 +54,7 @@ public class NbaGachaApp {
     // MODIFIES: this
     // EFFECTS: Runs the main loop of the gacha game
     //          Throws IOException if there was an error reading the database
-    public void runApp() throws IOException {
+    public void runApp() {
         System.out.println("Welcome to the NBA Gacha Game! Enter any key to Roll, 'C' for chances,"
                 + " 'T' to see your players, or 'Q' to quit");
         Scanner scanner = new Scanner(System.in).useDelimiter("\\n");
@@ -68,7 +66,11 @@ public class NbaGachaApp {
             } else if (userInput.equals("T") || userInput.equals("t")) {
                 claimedMenu(scanner);
             } else {
-                rollPlayer(scanner);
+                try {
+                    rollPlayer(scanner);
+                } catch (IOException e) {
+                    System.out.println("Error occurred while rolling a player");
+                }
             }
             System.out.println("Enter any key to roll again, 'C' for chances, 'T' to see your players, or 'Q' to quit");
             userInput = scanner.next();
@@ -81,35 +83,7 @@ public class NbaGachaApp {
     // EFFECTS: Creates an NBA Player with the same ID as the role
     //          Throws an IOException if there was an error reading the player database
     public Player generatePlayer(int roll) throws IOException {
-        Player p;
-        int playerID;
-
-        readCSV(); // generate the file reader for the csv
-        csvReader.readLine(); // read the first line through because it's just the headers
-        String row = csvReader.readLine();
-
-        // create a loop that reads until we find the player in the csv file
-        while (row != null) {
-            List<String> playerData = Arrays.asList(row.split(","));
-            playerID = Integer.parseInt(playerData.get(ID_INDEX));
-            if (playerID == roll) {
-                p = new Player(playerData); // create the player
-                return p;
-            } else {
-                row = csvReader.readLine();
-            }
-        }
-        return null;
-    }
-
-    // MODIFIES: this
-    // EFFECTS: Opens the IOStream to read the CSV file containing the player information
-    public void readCSV() {
-        try {
-            csvReader = new BufferedReader(new FileReader(PATH_TO_CSV));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        return new Player(roll);
     }
 
     // MODIFIES: this

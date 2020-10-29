@@ -1,5 +1,10 @@
 package model;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import ui.NbaGachaApp;
@@ -9,21 +14,45 @@ public class Player {
     public String name;
     public String position;
     public String team;
+    private BufferedReader csvReader;
     public int stars;
     public int playerID;
     public HashMap<String, Double> playerStats;
 
+    private static final String PATH_TO_CSV = "data/sportsref_download.csv"; // path to the csv
+
+
+    // EFFECTS: Constructs a player based off id
+    public Player(int id) throws IOException {
+
+        openPlayerDataFromCSV(); // generate the file reader for the csv
+        csvReader.readLine(); // read the first line through because it's just the headers
+        String row = csvReader.readLine();
+
+        // create a loop that reads until we find the player in the csv file
+        while (row != null) {
+            List<String> playerData = Arrays.asList(row.split(","));
+            playerID = Integer.parseInt(playerData.get(NbaGachaApp.ID_INDEX));
+            if (playerID == id) {
+                setPlayerData(playerData);
+                row = null; // we've created the player so don't need to keep looking
+            } else {
+                row = csvReader.readLine(); // keep looking until we find the player
+            }
+        }
+    }
+
     /* REQUIRES: playerData must have size of 15 containing the data of the given player. The following indices must
-    *           contain the values: 0 = rank, 1 = name, 2 = position, 3 = age, 4 = team, 5 = minutes, 6 = field goals
-    *           7 = field goal attempts, 8 = field goal percentage 9 = rebounds, 10 = assists, 11 = steals,
-    *           12 = blocks, 13 = points, 14 Stars.
-    *           Rank, age and stars are integers represented as strings
-    *           Minutes, field goals, field goal attempts, field goal percentage, rebounds, assists, steals, blocks,
-    *           points are doubles represented as strings
-    *           stars must be a integer represented as a string from 3-5 inclusive
-    * EFFECTS: Constructs a new basketball player with their information
-    */
-    public Player(List<String> playerData) {
+     *           contain the values: 0 = rank, 1 = name, 2 = position, 3 = age, 4 = team, 5 = minutes, 6 = field goals
+     *           7 = field goal attempts, 8 = field goal percentage 9 = rebounds, 10 = assists, 11 = steals,
+     *           12 = blocks, 13 = points, 14 Stars.
+     *           Rank, age and stars are integers represented as strings
+     *           Minutes, field goals, field goal attempts, field goal percentage, rebounds, assists, steals, blocks,
+     *           points are doubles represented as strings
+     *           stars must be a integer represented as a string from 3-5 inclusive
+     * EFFECTS: Constructs a new basketball player with their information
+     */
+    private void setPlayerData(List<String> playerData) {
         this.name = playerData.get(NbaGachaApp.NAME_INDEX);
         this.position = playerData.get(NbaGachaApp.POSITION_INDEX);
         this.stars = Integer.parseInt(playerData.get(NbaGachaApp.STAR_INDEX));
@@ -56,6 +85,16 @@ public class Player {
         playerStats.put("assists", assists);
         playerStats.put("blocks", blocks);
         playerStats.put("points", points);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Opens the IOStream to read the CSV file containing the player information
+    private void openPlayerDataFromCSV() {
+        try {
+            csvReader = new BufferedReader(new FileReader(PATH_TO_CSV));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     // EFFECTS: Returns the stats of the player (minutes, assists, rebounds, blocks, points)

@@ -1,8 +1,10 @@
+
 package model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,9 +28,13 @@ public class ClaimedPlayersTest {
         p3Data = new ArrayList<>();;
         createTestData();
 
-        p1 = new Player(p1Data);
-        p2 = new Player(p2Data);
-        p3 = new Player(p3Data);
+        try {
+            p1 = new Player(6);
+            p2 = new Player(28);
+            p3 = new Player(100);
+        } catch (IOException e) {
+            fail("Error generating test players");
+        }
 
         testTeam = new Team();
         claimedPlayers = new ClaimedPlayers();
@@ -43,16 +49,16 @@ public class ClaimedPlayersTest {
         // check the initial status of the claimed player list and team
         assertEquals(0, testTeam.size());
         assertEquals(2, claimedPlayers.size());
-        assertFalse(testTeam.hasPlayer("p2"));
-        assertTrue(claimedPlayers.hasPlayer("p2"));
+        assertFalse(testTeam.hasPlayer("Spencer Dinwiddie"));
+        assertTrue(claimedPlayers.hasPlayer("Spencer Dinwiddie"));
 
-        claimedPlayers.switchToActiveTeam(testTeam, "p2");
+        claimedPlayers.switchToActiveTeam(testTeam, "Spencer Dinwiddie");
 
         // test to make sure the player was switched from the claimed players to the team
         assertEquals(1, testTeam.size());
         assertEquals(1, claimedPlayers.size());
-        assertTrue(testTeam.hasPlayer("p2"));
-        assertFalse(claimedPlayers.hasPlayer("p2"));
+        assertTrue(testTeam.hasPlayer("Spencer Dinwiddie"));
+        assertFalse(claimedPlayers.hasPlayer("Spencer Dinwiddie"));
     }
 
     @Test
@@ -65,22 +71,22 @@ public class ClaimedPlayersTest {
 
         // fill up the team
         for (int i = 0; i < Team.MAX_TEAM_SIZE; i++) {
-            claimedPlayers.switchToActiveTeam(testTeam, "p2");
+            claimedPlayers.switchToActiveTeam(testTeam, "Spencer Dinwiddie");
         }
 
         // check the initial status of the claimed player list and team
         assertEquals(15, testTeam.size());
         assertEquals(1, claimedPlayers.size());
-        assertFalse(testTeam.hasPlayer("p3"));
-        assertFalse(claimedPlayers.hasPlayer("p2"));
+        assertFalse(testTeam.hasPlayer("Kevin Huerter"));
+        assertFalse(claimedPlayers.hasPlayer("Spencer Dinwiddie"));
 
-        claimedPlayers.switchToActiveTeam(testTeam, "p3", "p2");
+        claimedPlayers.switchToActiveTeam(testTeam, "Kevin Huerter", "Spencer Dinwiddie");
 
         // test to make sure the player was switched from the claimed players to the team
         assertEquals(15, testTeam.size());
         assertEquals(1, claimedPlayers.size());
-        assertTrue(testTeam.hasPlayer("p3"));
-        assertTrue(claimedPlayers.hasPlayer("p2"));
+        assertTrue(testTeam.hasPlayer("Kevin Huerter"));
+        assertTrue(claimedPlayers.hasPlayer("Spencer Dinwiddie"));
 
     }
 
@@ -89,7 +95,7 @@ public class ClaimedPlayersTest {
         assertEquals(0, claimedPlayers.size());
         claimedPlayers.addPlayer(p3);
         assertEquals(1, claimedPlayers.size());
-        assertTrue(claimedPlayers.hasPlayer("p3"));
+        assertTrue(claimedPlayers.hasPlayer("Kevin Huerter"));
     }
 
     @Test
@@ -122,13 +128,13 @@ public class ClaimedPlayersTest {
 
     @Test
     public void testHasPlayerDoesNotHavePlayer() {
-        assertFalse(claimedPlayers.hasPlayer("p3"));
+        assertFalse(claimedPlayers.hasPlayer("Kevin Huerter"));
     }
 
     @Test
     public void testHasPlayerPlayerOnClaimedRoster() {
         claimedPlayers.addPlayer(p2);
-        assertTrue(claimedPlayers.hasPlayer("p2"));
+        assertTrue(claimedPlayers.hasPlayer("Spencer Dinwiddie"));
     }
 
     @Test
@@ -148,8 +154,8 @@ public class ClaimedPlayersTest {
     public void testPrintPlayersSomePlayers() {
         claimedPlayers.addPlayer(p1);
         claimedPlayers.addPlayer(p3);
-        assertEquals("Name: p1 Stars: 5 Position: SG Team: TOR\nName: p3 Stars: 3 Position: PF Team: LAL\n",
-                claimedPlayers.printPlayers());
+        assertEquals("Name: Luka Doncic Stars: 5 Position: PG Team: DAL\n" +
+                        "Name: Kevin Huerter Stars: 3 Position: SG Team: ATL\n", claimedPlayers.printPlayers());
     }
 
     @Test
@@ -161,8 +167,8 @@ public class ClaimedPlayersTest {
     public void testGetPlayerByName() {
         claimedPlayers.addPlayer(p1);
         claimedPlayers.addPlayer(p2);
-        assertEquals(p2, claimedPlayers.getPlayerByName("p2"));
-        assertEquals(p1, claimedPlayers.getPlayerByName("p1"));
+        assertEquals(p2, claimedPlayers.getPlayerByName("Spencer Dinwiddie"));
+        assertEquals(p1, claimedPlayers.getPlayerByName("Luka Doncic"));
     }
 
     @Test
@@ -172,12 +178,12 @@ public class ClaimedPlayersTest {
 
         // check the initial status of the claimed roster
         assertEquals(2, claimedPlayers.size());
-        assertTrue(claimedPlayers.hasPlayer("p3"));
+        assertTrue(claimedPlayers.hasPlayer("Kevin Huerter"));
 
         // ensure the player was removed
-        assertEquals(p3, claimedPlayers.removePlayer("p3"));
+        assertEquals(p3, claimedPlayers.removePlayer("Kevin Huerter"));
         assertEquals(1, claimedPlayers.size());
-        assertFalse(claimedPlayers.hasPlayer("p3"));
+        assertFalse(claimedPlayers.hasPlayer("Kevin Huerter"));
     }
 
     public void createTestData() {

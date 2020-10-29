@@ -3,6 +3,7 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -24,9 +25,13 @@ class PlayerTest {
         p2Data = new ArrayList<>();
         p3Data = new ArrayList<>();
         createTestData();
-        p1 = new Player(p1Data);
-        p2 = new Player(p2Data);
-        p3 = new Player(p3Data);
+        try {
+            p1 = new Player(6);
+            p2 = new Player(28);
+            p3 = new Player(100);
+        } catch (IOException e) {
+            fail("Something went wrong creating test players");
+        }
     }
 
     @Test
@@ -38,30 +43,30 @@ class PlayerTest {
 
     @Test
     public void testGetName() {
-        assertEquals("p1", p1.getName());
-        assertEquals("p2", p2.getName());
-        assertEquals("p3", p3.getName());
+        assertEquals("Luka Doncic", p1.getName());
+        assertEquals("Spencer Dinwiddie", p2.getName());
+        assertEquals("Kevin Huerter", p3.getName());
     }
 
     @Test
     public void testGetPosition() {
-        assertEquals("SG", p1.getPosition());
-        assertEquals("PG", p2.getPosition());
-        assertEquals("PF", p3.getPosition());
+        assertEquals("PG", p1.getPosition());
+        assertEquals("SG", p2.getPosition());
+        assertEquals("SG", p3.getPosition());
     }
 
     @Test
     public void testPlayerID() {
-        assertEquals(12, p1.getPlayerID());
-        assertEquals(10, p2.getPlayerID());
-        assertEquals(1, p3.getPlayerID());
+        assertEquals(6, p1.getPlayerID());
+        assertEquals(28, p2.getPlayerID());
+        assertEquals(100, p3.getPlayerID());
     }
 
     @Test
     public void testGetTeam() {
-        assertEquals("TOR", p1.getTeam());
-        assertEquals("MIL", p2.getTeam());
-        assertEquals("LAL", p3.getTeam());
+        assertEquals("DAL", p1.getTeam());
+        assertEquals("BRK", p2.getTeam());
+        assertEquals("ATL", p3.getTeam());
     }
 
     @Test
@@ -75,15 +80,15 @@ class PlayerTest {
         stats.put("blocks", 0.99);
         stats.put("points", 100.3);
 
-        p1 = new Player(data);
+        p1.setPlayerStats(data);
         assertEquals(stats, p1.getStats());
     }
 
     @Test
     public void testToString() {
-        assertEquals("Name: p1 Stars: 5 Position: SG Team: TOR", p1.toString());
-        assertEquals("Name: p2 Stars: 4 Position: PG Team: MIL", p2.toString());
-        assertEquals("Name: p3 Stars: 3 Position: PF Team: LAL", p3.toString());
+        assertEquals("Name: Luka Doncic Stars: 5 Position: PG Team: DAL", p1.toString());
+        assertEquals("Name: Spencer Dinwiddie Stars: 4 Position: SG Team: BRK", p2.toString());
+        assertEquals("Name: Kevin Huerter Stars: 3 Position: SG Team: ATL", p3.toString());
     }
 
     @Test
@@ -91,17 +96,17 @@ class PlayerTest {
         HashMap<String, Double> p2Expected = new HashMap<>();
         HashMap<String, Double> p3Expected = new HashMap<>();
 
-        p2Expected.put("minutes", 8.7);
-        p2Expected.put("rebounds", 2.9);
-        p2Expected.put("assists", 0.4);
-        p2Expected.put("blocks", 0.7);
-        p2Expected.put("points", 6.8);
+        p2Expected.put("minutes", 31.2);
+        p2Expected.put("rebounds", 3.5);
+        p2Expected.put("assists", 6.8);
+        p2Expected.put("blocks", 0.3);
+        p2Expected.put("points", 20.6);
 
-        p3Expected.put("minutes", 18.9);
-        p3Expected.put("rebounds", 3.7);
-        p3Expected.put("assists", 0.1);
-        p3Expected.put("blocks", 3.1);
-        p3Expected.put("points", 22.7);
+        p3Expected.put("minutes", 31.4);
+        p3Expected.put("rebounds", 4.1);
+        p3Expected.put("assists", 3.8);
+        p3Expected.put("blocks", 0.5);
+        p3Expected.put("points", 12.2);
 
         assertEquals(p2Expected, p2.getStats());
         assertEquals(p3Expected, p3.getStats());

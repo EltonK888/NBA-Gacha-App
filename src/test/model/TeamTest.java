@@ -3,6 +3,7 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,9 +26,13 @@ public class TeamTest {
         p3Data = new ArrayList<>();;
         createTestData();
 
-        p1 = new Player(p1Data);
-        p2 = new Player(p2Data);
-        p3 = new Player(p3Data);
+        try {
+            p1 = new Player(6);
+            p2 = new Player(28);
+            p3 = new Player(100);
+        } catch (IOException e) {
+            fail("Error generating test players");
+        }
 
         testTeam = new Team();
     }
@@ -37,7 +42,7 @@ public class TeamTest {
         assertEquals(0, testTeam.size());
         testTeam.addPlayer(p3);
         assertEquals(1, testTeam.size());
-        assertTrue(testTeam.hasPlayer("p3"));
+        assertTrue(testTeam.hasPlayer("Kevin Huerter"));
     }
 
     @Test public void testAddPlayerFullTeam() {
@@ -46,12 +51,12 @@ public class TeamTest {
         }
 
         assertEquals(Team.MAX_TEAM_SIZE, testTeam.size());
-        assertFalse(testTeam.hasPlayer("p2"));
+        assertFalse(testTeam.hasPlayer("Spencer Dinwiddie"));
 
         testTeam.addPlayer(p2);
 
         assertEquals(Team.MAX_TEAM_SIZE, testTeam.size());
-        assertFalse(testTeam.hasPlayer("p2"));
+        assertFalse(testTeam.hasPlayer("Spencer Dinwiddie"));
 
     }
 
@@ -85,13 +90,13 @@ public class TeamTest {
 
     @Test
     public void testHasPlayerPlayerNotOntTeam() {
-        assertFalse(testTeam.hasPlayer("p3"));
+        assertFalse(testTeam.hasPlayer("Kevin Huerter"));
     }
 
     @Test
     public void testHasPlayerPlayerOnTeam() {
         testTeam.addPlayer(p2);
-        assertTrue(testTeam.hasPlayer("p2"));
+        assertTrue(testTeam.hasPlayer("Spencer Dinwiddie"));
     }
 
     @Test
@@ -111,8 +116,8 @@ public class TeamTest {
     public void testPrintPlayersSomePlayers() {
         testTeam.addPlayer(p1);
         testTeam.addPlayer(p3);
-        assertEquals("Name: p1 Stars: 5 Position: SG Team: TOR\nName: p3 Stars: 3 Position: PF Team: LAL\n",
-                testTeam.printPlayers());
+        assertEquals("Name: Luka Doncic Stars: 5 Position: PG Team: DAL\n" +
+                        "Name: Kevin Huerter Stars: 3 Position: SG Team: ATL\n", testTeam.printPlayers());
     }
 
     @Test
@@ -124,8 +129,8 @@ public class TeamTest {
     public void testGetPlayerByName() {
         testTeam.addPlayer(p1);
         testTeam.addPlayer(p2);
-        assertEquals(p2, testTeam.getPlayerByName("p2"));
-        assertEquals(p1, testTeam.getPlayerByName("p1"));
+        assertEquals(p2, testTeam.getPlayerByName("Spencer Dinwiddie"));
+        assertEquals(p1, testTeam.getPlayerByName("Luka Doncic"));
     }
 
     // this test is just to satisfy autobot, it is covered in my requires clause that the player must be on the roster
@@ -142,12 +147,12 @@ public class TeamTest {
 
         // check the initial status of the claimed roster
         assertEquals(2, testTeam.size());
-        assertTrue(testTeam.hasPlayer("p3"));
+        assertTrue(testTeam.hasPlayer("Kevin Huerter"));
 
         // ensure the player was removed
-        assertEquals(p3, testTeam.removePlayer("p3"));
+        assertEquals(p3, testTeam.removePlayer("Kevin Huerter"));
         assertEquals(1, testTeam.size());
-        assertFalse(testTeam.hasPlayer("p3"));
+        assertFalse(testTeam.hasPlayer("Kevin Huerter"));
     }
 
     @Test

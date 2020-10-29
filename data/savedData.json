@@ -1,0 +1,20 @@
+{
+    "savedData": {
+        "savedClaimedPlayers": [
+            {
+                "playerID": 1,
+                "playerName": "James Harden"
+            }
+        ],
+        "savedActiveTeam": [
+            {
+                "playerID": 22,
+                "playerName": "Brandon Ingram"
+            },
+            {
+                "playerID": 100,
+                "playerName": "Kevin Huerter"
+            }
+        ]
+    }
+}
