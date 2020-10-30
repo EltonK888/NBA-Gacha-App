@@ -27,6 +27,8 @@ public class Player {
 
 
     // EFFECTS: Constructs a player based off id
+    //          - throws and IOException if there was an error reading the player data from the database/unable to
+    //          open the database,
     public Player(int id) throws IOException {
         findAndConstructPlayerFromDatabase(id);
     }
@@ -34,6 +36,8 @@ public class Player {
     // MODIFIES: this
     // EFFECTS: Finds the player with the id given in the database and constructs a player with their information
     //          and stats
+    //          - throws an IOException if there was an error reading the player data from the database/unable to open
+    //          the database.
     private void findAndConstructPlayerFromDatabase(int id) throws IOException {
         openPlayerDataFromCSV(); // generate the file reader for the csv
         csvReader.readLine(); // read the first line through because it's just the headers
@@ -100,6 +104,7 @@ public class Player {
 
     // MODIFIES: this
     // EFFECTS: Opens the IOStream to read the CSV file containing the player information
+    //          - throws a FileNotFoundException if it could not open the CSV file for reading
     public void openPlayerDataFromCSV() throws FileNotFoundException {
         csvReader = new BufferedReader(new FileReader(PATH_TO_CSV));
     }

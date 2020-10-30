@@ -12,16 +12,19 @@ import java.io.PrintWriter;
 /* Credit to the JsonSerializationDemo project posted by CPSC 210. Most of the reading and writing json logic is
  * taken from their repository at the following link https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
  */
+// A class that represents an object that can write player rosters into a json file
 public class JsonWriter {
     private PrintWriter writer;
     private String destination;
 
+    // EFFECTS: Constructs a json writer with the destination to write the file to
     public JsonWriter(String destination) {
         this.destination = destination;
     }
 
     // MODIFIES: this
     // EFFECTS: Opens the writer IOStream so that data can be written to file
+    //          - throws a FileNotFoundException if the file name is not valid
     public void open() throws FileNotFoundException {
         writer = new PrintWriter(new File(destination));
     }

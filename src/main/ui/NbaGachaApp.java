@@ -17,7 +17,6 @@ import java.util.Scanner;
 // 37 4 star players
 // 204 3 star players
 
-
 // A class for the NBAGacha Application
 public class NbaGachaApp {
     private Random rand;

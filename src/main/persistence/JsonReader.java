@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 /* Credit to the JsonSerializationDemo project posted by CPSC 210. Most of the reading and writing json logic is
  * taken from their repository at the following link https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
  */
+// A class to represent an object that reads a json file and builds the appropriate player rosters
 public class JsonReader {
     private String source;
     public Team savedTeam;
