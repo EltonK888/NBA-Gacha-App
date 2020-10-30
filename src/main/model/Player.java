@@ -100,12 +100,8 @@ public class Player {
 
     // MODIFIES: this
     // EFFECTS: Opens the IOStream to read the CSV file containing the player information
-    private void openPlayerDataFromCSV() {
-        try {
-            csvReader = new BufferedReader(new FileReader(PATH_TO_CSV));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+    public void openPlayerDataFromCSV() throws FileNotFoundException {
+        csvReader = new BufferedReader(new FileReader(PATH_TO_CSV));
     }
 
     // EFFECTS: Returns the player as a JSON object
