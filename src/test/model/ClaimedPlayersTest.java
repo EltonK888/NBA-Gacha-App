@@ -1,6 +1,7 @@
 
 package model;
 
+import org.json.JSONArray;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -184,6 +185,31 @@ public class ClaimedPlayersTest {
         assertEquals(p3, claimedPlayers.removePlayer("Kevin Huerter"));
         assertEquals(1, claimedPlayers.size());
         assertFalse(claimedPlayers.hasPlayer("Kevin Huerter"));
+    }
+
+    @Test
+    public void testRosterToJsonNotEmpty() {
+        claimedPlayers.addPlayer(p1);
+        claimedPlayers.addPlayer(p2);
+        claimedPlayers.addPlayer(p3);
+        JSONArray testClaimedPlayersAsJsonArray = claimedPlayers.rosterToJson();
+
+        assertFalse(testClaimedPlayersAsJsonArray.isEmpty());
+        assertEquals("Luka Doncic", testClaimedPlayersAsJsonArray.getJSONObject(0).get(Player.JSON_NAME_KEY));
+        assertEquals(6, testClaimedPlayersAsJsonArray.getJSONObject(0).get(Player.JSON_PLAYERID_KEY));
+        assertEquals("Spencer Dinwiddie",
+                testClaimedPlayersAsJsonArray.getJSONObject(1).get(Player.JSON_NAME_KEY));
+        assertEquals(28, testClaimedPlayersAsJsonArray.getJSONObject(1).get(Player.JSON_PLAYERID_KEY));
+        assertEquals("Kevin Huerter", testClaimedPlayersAsJsonArray.getJSONObject(2).get(Player.JSON_NAME_KEY));
+        assertEquals(100, testClaimedPlayersAsJsonArray.getJSONObject(2).get(Player.JSON_PLAYERID_KEY));
+
+    }
+
+    @Test
+    public void testRosterToJsonEmpty() {
+        JSONArray testClaimedPlayersAsJsonArray = claimedPlayers.rosterToJson();
+
+        assertTrue(testClaimedPlayersAsJsonArray.isEmpty());
     }
 
     public void createTestData() {

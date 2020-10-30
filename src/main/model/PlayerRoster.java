@@ -1,5 +1,8 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +62,17 @@ public abstract class PlayerRoster {
         Player p = getPlayerByName(name);
         playerList.remove(p);
         return p;
+    }
+
+    // EFFECTS: Returns the roster of players as a JSON array
+    public JSONArray rosterToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Player p: playerList) {
+            jsonArray.put(p.playerToJson());
+        }
+
+        return jsonArray;
     }
 
     // EFFECTS: Returns the number of players a user has claimed

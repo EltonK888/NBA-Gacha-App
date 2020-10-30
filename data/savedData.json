@@ -1,20 +1,46 @@
-{
-    "savedData": {
-        "savedClaimedPlayers": [
-            {
-                "playerID": 1,
-                "playerName": "James Harden"
-            }
-        ],
-        "savedActiveTeam": [
-            {
-                "playerID": 22,
-                "playerName": "Brandon Ingram"
-            },
-            {
-                "playerID": 100,
-                "playerName": "Kevin Huerter"
-            }
-        ]
-    }
-}
+{"savedData": {
+    "savedClaimedPlayers": [
+        {
+            "playerName": "Brook Lopez",
+            "playerID": 55
+        },
+        {
+            "playerName": "Jaren Jackson Jr.",
+            "playerID": 49
+        },
+        {
+            "playerName": "Markelle Fultz",
+            "playerID": 105
+        },
+        {
+            "playerName": "Luka Doncic",
+            "playerID": 6
+        },
+        {
+            "playerName": "Kyle Korver",
+            "playerID": 203
+        },
+        {
+            "playerName": "Rudy Gobert",
+            "playerID": 18
+        },
+        {
+            "playerName": "Kawhi Leonard",
+            "playerID": 8
+        }
+    ],
+    "savedActiveTeam": [
+        {
+            "playerName": "Rudy Gobert",
+            "playerID": 18
+        },
+        {
+            "playerName": "Jayson Tatum",
+            "playerID": 13
+        },
+        {
+            "playerName": "Luka Doncic",
+            "playerID": 6
+        }
+    ]
+}}

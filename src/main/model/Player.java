@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
+import org.json.JSONObject;
 import ui.NbaGachaApp;
 
 // A class that represents an NBA Player
@@ -20,11 +22,19 @@ public class Player {
     public HashMap<String, Double> playerStats;
 
     private static final String PATH_TO_CSV = "data/sportsref_download.csv"; // path to the csv
+    public static final String JSON_PLAYERID_KEY = "playerID"; // the key for the id json representation of player
+    public static final String JSON_NAME_KEY = "playerName"; // the key for the name json representation of player
 
 
     // EFFECTS: Constructs a player based off id
     public Player(int id) throws IOException {
+        findAndConstructPlayerFromDatabase(id);
+    }
 
+    // MODIFIES: this
+    // EFFECTS: Finds the player with the id given in the database and constructs a player with their information
+    //          and stats
+    private void findAndConstructPlayerFromDatabase(int id) throws IOException {
         openPlayerDataFromCSV(); // generate the file reader for the csv
         csvReader.readLine(); // read the first line through because it's just the headers
         String row = csvReader.readLine();
@@ -40,6 +50,7 @@ public class Player {
                 row = csvReader.readLine(); // keep looking until we find the player
             }
         }
+
     }
 
     /* REQUIRES: playerData must have size of 15 containing the data of the given player. The following indices must
@@ -95,6 +106,14 @@ public class Player {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    // EFFECTS: Returns the player as a JSON object
+    public JSONObject playerToJson() {
+        JSONObject playerAsJsonObject = new JSONObject();
+        playerAsJsonObject.put(JSON_NAME_KEY, this.name);
+        playerAsJsonObject.put(JSON_PLAYERID_KEY, this.playerID);
+        return playerAsJsonObject;
     }
 
     // EFFECTS: Returns the stats of the player (minutes, assists, rebounds, blocks, points)

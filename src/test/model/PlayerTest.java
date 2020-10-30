@@ -1,5 +1,6 @@
 package model;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -110,6 +111,20 @@ class PlayerTest {
 
         assertEquals(p2Expected, p2.getStats());
         assertEquals(p3Expected, p3.getStats());
+    }
+
+    @Test
+    public void testPlayerToJson() {
+        JSONObject player1AsJson = p1.playerToJson();
+        JSONObject player2AsJson = p2.playerToJson();
+        JSONObject player3AsJson = p3.playerToJson();
+
+        assertEquals("Luka Doncic", player1AsJson.get(Player.JSON_NAME_KEY));
+        assertEquals(6, player1AsJson.get(Player.JSON_PLAYERID_KEY));
+        assertEquals("Spencer Dinwiddie", player2AsJson.get(Player.JSON_NAME_KEY));
+        assertEquals(28, player2AsJson.get(Player.JSON_PLAYERID_KEY));
+        assertEquals("Kevin Huerter", player3AsJson.get(Player.JSON_NAME_KEY));
+        assertEquals(100, player3AsJson.get(Player.JSON_PLAYERID_KEY));
     }
 
     public void createTestData() {

@@ -1,0 +1,26 @@
+{"savedData": {
+    "savedClaimedPlayers": [
+        {
+            "playerName": "Christian Wood",
+            "playerID": 90
+        },
+        {
+            "playerName": "Kevin Huerter",
+            "playerID": 100
+        },
+        {
+            "playerName": "Delon Wright",
+            "playerID": 200
+        }
+    ],
+    "savedActiveTeam": [
+        {
+            "playerName": "CJ McCollum",
+            "playerID": 20
+        },
+        {
+            "playerName": "George Hill",
+            "playerID": 150
+        }
+    ]
+}}

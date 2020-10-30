@@ -3,13 +3,11 @@ package ui;
 import model.ClaimedPlayers;
 import model.Player;
 import model.Team;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -26,6 +24,8 @@ public class NbaGachaApp {
     public Player currentPlayer;
     public ClaimedPlayers claimed;
     public Team team;
+    private JsonReader reader;
+    private JsonWriter writer;
 
     public static final int ID_INDEX = 0; // list index for the player ID
     public static final int NAME_INDEX = 1; // list index for the player name
@@ -43,8 +43,10 @@ public class NbaGachaApp {
     public static final double FIVE_STAR_ROLL_CHANCE = 0.05; // roll chance for a 5 star player
     public static final double FOUR_STAR_ROLL_CHANCE = 0.10; // roll chance for a 4 star player
     public static final double THREE_STAR_ROLL_CHANCE = 0.85; // roll chance for a 3 star player
+    public static final String SAVED_DATA_PATH = "./data/savedData.json"; // path to the saved data
 
-    // constructs the app by creating the list of claimed players and teams. Also initialized the random int roller
+    // EFFECTS: constructs the app by creating the list of claimed players and teams. Also initialized the random int
+    //          roller
     public NbaGachaApp() {
         rand = new Random();
         team = new Team();
@@ -53,17 +55,17 @@ public class NbaGachaApp {
 
     // MODIFIES: this
     // EFFECTS: Runs the main loop of the gacha game
-    //          Throws IOException if there was an error reading the database
     public void runApp() {
+        Scanner scanner = new Scanner(System.in).useDelimiter("\\n");
+        loadSavedData(scanner);
         System.out.println("Welcome to the NBA Gacha Game! Enter any key to Roll, 'C' for chances,"
                 + " 'T' to see your players, or 'Q' to quit");
-        Scanner scanner = new Scanner(System.in).useDelimiter("\\n");
         String userInput = scanner.next();
-        boolean run = userInput.equals("Q") || userInput.equals("q");
-        while (!run) {
-            if (userInput.equals("C") || userInput.equals("c")) {
+        boolean run = !userInput.equalsIgnoreCase("q");
+        while (run) {
+            if (userInput.equalsIgnoreCase("c")) {
                 System.out.println(printRollChances());
-            } else if (userInput.equals("T") || userInput.equals("t")) {
+            } else if (userInput.equalsIgnoreCase("t")) {
                 claimedMenu(scanner);
             } else {
                 try {
@@ -74,8 +76,10 @@ public class NbaGachaApp {
             }
             System.out.println("Enter any key to roll again, 'C' for chances, 'T' to see your players, or 'Q' to quit");
             userInput = scanner.next();
-            run = userInput.equals("Q") || userInput.equals("q");
+            run = !userInput.equalsIgnoreCase("q");
         }
+
+        saveData(scanner);
     }
 
     // REQUIRES: roll must correspond with a player ID in the database
@@ -222,5 +226,41 @@ public class NbaGachaApp {
                 + "rolling a 4 star players is: " + FOUR_STAR_ROLL_CHANCE * 100 + "%.\nThe chances of rolling a 3 "
                 + "star player is: " + THREE_STAR_ROLL_CHANCE * 100 + "%.";
 
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Loads the saved data from the json file
+    public void loadSavedData(Scanner scanner) {
+        System.out.println("Would you like to load your saved data? Enter 'Y' for yes or anything else to continue");
+        String userInput = scanner.next();
+        if (userInput.equalsIgnoreCase("y")) {
+            reader = new JsonReader(SAVED_DATA_PATH);
+            try {
+                reader.setRosters();
+                team = reader.getSavedTeam();
+                claimed = reader.getSavedClaimedPlayers();
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("Error reading saved data");
+            }
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Writes the saved data from the app to a json file
+    public void saveData(Scanner scanner) {
+        System.out.println("Would you like to overwrite your saved data? Enter 'Y' to overwrite or any other key");
+        String userInput = scanner.next();
+        if (userInput.equalsIgnoreCase("y")) {
+            writer = new JsonWriter(SAVED_DATA_PATH);
+            try {
+                writer.open();
+                writer.write(claimed, team);
+                writer.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                System.out.println("There was an error saving your data");
+            }
+        }
     }
 }

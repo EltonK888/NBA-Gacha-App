@@ -1,0 +1,40 @@
+{
+    "savedData": {
+        "savedClaimedPlayers": [
+            {
+                "playerName": "Damian Lillard",
+                "playerID": 3
+            },
+            {
+                "playerName": "Tyler Herro",
+                "playerID": 88
+            },
+            {
+                "playerName": "Fred VanVleet",
+                "playerID": 47
+            },
+            {
+                "playerName": "Kevin Knox",
+                "playerID": 211
+            },
+            {
+                "playerName": "Andre Drummond",
+                "playerID": 44
+            }
+        ],
+        "savedActiveTeam": [
+            {
+                "playerName": "James Harden",
+                "playerID": 1
+            },
+            {
+                "playerName": "Pascal Siakam",
+                "playerID": 19
+            },
+            {
+                "playerName": "Bojan Bogdanovic",
+                "playerID": 56
+            }
+        ]
+    }
+}
