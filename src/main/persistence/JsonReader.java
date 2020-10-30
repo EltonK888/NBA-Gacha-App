@@ -60,7 +60,7 @@ public class JsonReader {
 
             if (rosterType.equals(JsonKeyConstants.SAVED_TEAM_PLAYERS_KEY)) {
                 savedTeam.addPlayer(new Player(json1.getInt(Player.JSON_PLAYERID_KEY)));
-            } else if (rosterType.equals(JsonKeyConstants.SAVED_CLAIMED_PLAYERS_KEY)) {
+            } else {
                 savedClaimedPlayers.addPlayer(new Player(json1.getInt(Player.JSON_PLAYERID_KEY)));
             }
         }
