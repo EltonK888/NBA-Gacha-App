@@ -2,14 +2,14 @@ package ui;
 
 import model.ClaimedPlayers;
 import model.Player;
+import model.PlayerRoster;
 import model.Team;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 
 // Citation to basketball-reference.com for the player information
@@ -19,12 +19,12 @@ import java.util.Scanner;
 
 // A class for the NBAGacha Application
 public class NbaGachaApp {
-    private Random rand;
-    public Player currentPlayer;
-    public ClaimedPlayers claimed;
-    public Team team;
-    private JsonReader reader;
-    private JsonWriter writer;
+    private static Random rand;
+    public static Player currentPlayer;
+    public static ClaimedPlayers claimed;
+    public static Team team;
+    private static JsonReader reader;
+    private static JsonWriter writer;
 
     public static final int ID_INDEX = 0; // list index for the player ID
     public static final int NAME_INDEX = 1; // list index for the player name
@@ -55,8 +55,13 @@ public class NbaGachaApp {
     // MODIFIES: this
     // EFFECTS: Runs the main loop of the gacha game
     public void runApp() {
-        Scanner scanner = new Scanner(System.in).useDelimiter("\\n");
-        loadSavedData(scanner);
+        //Scanner scanner = new Scanner(System.in).useDelimiter("\\n");
+        new GUI();
+    }
+
+    public void mainLoop() {
+        /*
+        loadSavedData();
         System.out.println("Welcome to the NBA Gacha Game! Enter any key to Roll, 'C' for chances,"
                 + " 'T' to see your players, or 'Q' to quit");
         String userInput = scanner.next();
@@ -73,25 +78,24 @@ public class NbaGachaApp {
                     System.out.println("Error occurred while rolling a player");
                 }
             }
-            System.out.println("Enter any key to roll again, 'C' for chances, 'T' to see your players, or 'Q' to quit");
             userInput = scanner.next();
             run = !userInput.equalsIgnoreCase("q");
         }
-
         saveData(scanner);
+         */
     }
 
     // REQUIRES: roll must correspond with a player ID in the database
     // MODIFIES: this
     // EFFECTS: Creates an NBA Player with the same ID as the role
     //          Throws an IOException if there was an error reading the player database
-    public Player generatePlayer(int roll) throws IOException {
+    public static Player generatePlayer(int roll) throws IOException {
         return new Player(roll);
     }
 
     // MODIFIES: this
     // EFFECTS: Adds the player to the claimed player list
-    public String claimPlayer(Player p) {
+    public static String claimPlayer(Player p) {
         claimed.addPlayer(p);
         return p.getName() + " has been claimed!";
     }
@@ -99,7 +103,7 @@ public class NbaGachaApp {
     // MODIFIES: this
     // EFFECTS: Rolls a player based off the roll chances and asks if the user would like to claim the player
     //          Throws IOException if there was an error reading the player database
-    public void rollPlayer(Scanner scanner) throws IOException {
+    public static Player rollPlayer() throws IOException {
         double rollTable = rand.nextDouble(); // determines what star table to roll on
         int roll; // the integer that will be rolled
 
@@ -115,14 +119,15 @@ public class NbaGachaApp {
         }
 
         currentPlayer = generatePlayer(roll);
-        System.out.println("You have rolled: a " + currentPlayer.getStars() + " star player, "
-                + currentPlayer.toString());
-        System.out.println("Would you like to claim?\nEnter 'Y' to claim or any other key to continue");
-        String userInput = scanner.next();
+        return currentPlayer;
+        //System.out.println("You have rolled: a " + currentPlayer.getStars() + " star player, "
+        //+ currentPlayer.toString());
+        //System.out.println("Would you like to claim?\nEnter 'Y' to claim or any other key to continue");
+        //String userInput = scanner.next();
 
-        if (userInput.equals("Y") || userInput.equals("y")) {
-            System.out.println(claimPlayer(currentPlayer));
-        }
+        //if (userInput.equals("Y") || userInput.equals("y")) {
+        //    System.out.println(claimPlayer(currentPlayer));
+        //}
     }
 
     // MODIFIES: this
@@ -220,7 +225,7 @@ public class NbaGachaApp {
     }
 
     // EFFECTS: Returns a string with the roll chances of the 5 star, 4 star, and 3 star roll tables
-    public String printRollChances() {
+    public static String printRollChances() {
         return "The chances of rolling a 5 star player is: " + FIVE_STAR_ROLL_CHANCE * 100 + "%.\nThe chances of "
                 + "rolling a 4 star players is: " + FOUR_STAR_ROLL_CHANCE * 100 + "%.\nThe chances of rolling a 3 "
                 + "star player is: " + THREE_STAR_ROLL_CHANCE * 100 + "%.";
@@ -229,37 +234,41 @@ public class NbaGachaApp {
 
     // MODIFIES: this
     // EFFECTS: Loads the saved data from the json file
-    public void loadSavedData(Scanner scanner) {
-        System.out.println("Would you like to load your saved data? Enter 'Y' for yes or anything else to continue");
-        String userInput = scanner.next();
-        if (userInput.equalsIgnoreCase("y")) {
-            reader = new JsonReader(SAVED_DATA_PATH);
-            try {
-                reader.setRosters();
-                team = reader.getSavedTeam();
-                claimed = reader.getSavedClaimedPlayers();
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println("Error reading saved data");
-            }
+    public static Map<String, PlayerRoster> loadSavedData() {
+        //System.out.println("Would you like to load your saved data? Enter 'Y' for yes or anything else to continue");
+        //String userInput = scanner.next();
+        //if (userInput.equalsIgnoreCase("y")) {
+        Map<String, PlayerRoster> rosters = new HashMap<String, PlayerRoster>();
+        reader = new JsonReader(SAVED_DATA_PATH);
+        try {
+            reader.setRosters();
+            team = reader.getSavedTeam();
+            claimed = reader.getSavedClaimedPlayers();
+            rosters = new HashMap<String, PlayerRoster>();
+            rosters.put("team", team);
+            rosters.put("claimed", claimed);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error reading saved data");
         }
+        return rosters;
     }
 
     // MODIFIES: this
     // EFFECTS: Writes the saved data from the app to a json file
-    public void saveData(Scanner scanner) {
-        System.out.println("Would you like to overwrite your saved data? Enter 'Y' to overwrite or any other key");
-        String userInput = scanner.next();
-        if (userInput.equalsIgnoreCase("y")) {
-            writer = new JsonWriter(SAVED_DATA_PATH);
-            try {
-                writer.open();
-                writer.write(claimed, team);
-                writer.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                System.out.println("There was an error saving your data");
-            }
+    public static void saveData(ClaimedPlayers claimed, Team team) {
+        //System.out.println("Would you like to overwrite your saved data? Enter 'Y' to overwrite or any other key");
+        //String userInput = scanner.next();
+        //if (userInput.equalsIgnoreCase("y")) {
+        writer = new JsonWriter(SAVED_DATA_PATH);
+        try {
+            writer.open();
+            writer.write(claimed, team);
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("There was an error saving your data");
         }
+        //}
     }
 }

@@ -1,10 +1,6 @@
 {"savedData": {
     "savedClaimedPlayers": [
         {
-            "playerName": "Brook Lopez",
-            "playerID": 55
-        },
-        {
             "playerName": "Jaren Jackson Jr.",
             "playerID": 49
         },
@@ -27,6 +23,22 @@
         {
             "playerName": "Kawhi Leonard",
             "playerID": 8
+        },
+        {
+            "playerName": "Brook Lopez",
+            "playerID": 55
+        },
+        {
+            "playerName": "LaMarcus Aldridge",
+            "playerID": 38
+        },
+        {
+            "playerName": "LaMarcus Aldridge",
+            "playerID": 38
+        },
+        {
+            "playerName": "Brook Lopez",
+            "playerID": 55
         }
     ],
     "savedActiveTeam": [
