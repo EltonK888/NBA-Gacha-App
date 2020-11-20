@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
+// A class to represent the GUI that the user interacts with to play the game
 public class GUI extends JFrame {
     public static final int WIDTH = 1920;
     public static final int HEIGHT = 1080;
